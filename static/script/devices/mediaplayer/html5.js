@@ -379,6 +379,7 @@ require.def(
             },
 
             _wipe: function() {
+                this._clearSentinels();
                 this._type = undefined;
                 this._source = undefined;
                 this._mimeType = undefined;
@@ -408,29 +409,95 @@ require.def(
                 }
             },
 
+
+            _exitBufferingSentinel: function () {
+                var hasEnoughData = this._mediaElement.readyState === 4; // HAVE_ENOUGH_DATA
+                if (this._sentinelTimeHasAdvanced || hasEnoughData) {
+                    this._exitBuffering();
+                    RuntimeContext.getDevice().getLogger().warn("Exit Buffering Sentinel activated!");
+                    return true;
+                }
+            },
+
+            _enterBufferingSentinel: function () {
+                if (!this._sentinelTimeHasAdvanced) {
+                    this._toBuffering();
+                    RuntimeContext.getDevice().getLogger().warn("Enter Buffering Sentinel activated!");
+                    return true;
+                }
+            },
+
+            _shouldBeSeekedToSentinel: function () {
+                if (this._lastTargetSeekTime !== undefined) {
+                    if (Math.abs(this.getCurrentTime() - this._lastTargetSeekTime) > 15) { // Seek tolerance
+                        this._seekTo(this._lastTargetSeekTime);
+                        RuntimeContext.getDevice().getLogger().warn("Seek Sentinel activated!");
+                        return true;
+                    } else {
+                        this._lastTargetSeekTime = undefined;
+                    }
+                }
+            },
+
+            _shouldBePausedSentinel: function () {
+                if (this._sentinelTimeHasAdvanced) {
+                    this._mediaElement.pause();
+                    RuntimeContext.getDevice().getLogger().warn("Pause Sentinel activated! ");
+                    return true;
+                }
+            },
+
+            _shouldBePlayingSentinel: function () {
+                if (!this._sentinelTimeHasAdvanced && !this._isAtEndOfMedia()) {
+                    this._mediaElement.play();
+                    RuntimeContext.getDevice().getLogger().warn("Play Sentinel activated!");
+                    return true;
+                }
+            },
+
+            _endOfMediaSentinel: function () {
+                if (!this._sentinelTimeHasAdvanced && this._isAtEndOfMedia()) {
+                    this._toComplete();
+                    RuntimeContext.getDevice().getLogger().warn("End Of Media Sentinel activated!");
+                    return true;
+                }
+            },
+
+            _isAtEndOfMedia: function () {
+                return this._mediaElement.currentTime >= (this._mediaElement.duration - 1);
+            },
+
+
             _toStopped: function() {
                 this._state = MediaPlayer.STATE.STOPPED;
                 this._emitEvent(MediaPlayer.EVENT.STOPPED);
+                this._lastTargetSeekTime = 0;
+                this._setSentinels([ this._shouldBeSeekedToSentinel, this._shouldBePausedSentinel ]);
             },
 
             _toBuffering: function() {
                 this._state = MediaPlayer.STATE.BUFFERING;
                 this._emitEvent(MediaPlayer.EVENT.BUFFERING);
+                this._lastTargetSeekTime = this._targetSeekTime;
+                this._setSentinels([ this._exitBufferingSentinel ]);
             },
 
             _toPlaying: function() {
                 this._state = MediaPlayer.STATE.PLAYING;
                 this._emitEvent(MediaPlayer.EVENT.PLAYING);
+                this._setSentinels([ this._endOfMediaSentinel, this._shouldBeSeekedToSentinel, this._shouldBePlayingSentinel, this._enterBufferingSentinel ]);
             },
 
             _toPaused: function() {
                 this._state = MediaPlayer.STATE.PAUSED;
                 this._emitEvent(MediaPlayer.EVENT.PAUSED);
+                this._setSentinels([ this._shouldBeSeekedToSentinel, this._shouldBePausedSentinel ]);
             },
 
             _toComplete: function() {
                 this._state = MediaPlayer.STATE.COMPLETE;
                 this._emitEvent(MediaPlayer.EVENT.COMPLETE);
+                this._setSentinels([]);
             },
 
             _toEmpty: function() {

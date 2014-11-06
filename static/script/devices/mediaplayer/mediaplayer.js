@@ -105,6 +105,53 @@ require.def(
             CLAMP_OFFSET_FROM_END_OF_RANGE: 0.1,
 
             /**
+             * Clear all the currently set sentinel functions and disable the sentinel interval timer.
+             * @protected
+             */
+            _clearSentinels: function() {
+                if (this._sentinelInterval !== undefined) {
+                    clearInterval(this._sentinelInterval);
+                    this._sentinelInterval = undefined;
+                }
+                this._sentinelTimeHasAdvanced = false;
+                this._sentinelTime = undefined;
+            },
+
+            /**
+             * Set one or more sentinel functions. The sentinel functions will be called regularly, and can monitor the device state
+             * and apply corrective action if the device deviates from the proper behaviour.
+             * @param {Array} sentinels Array of sentinel functions that will be called (with the MediaPlayer as 'this') regularly. A
+             * sentinel function should return true if it has taken any action, and then no more sentinels will be run until the next
+             * sentinel timer interval occurs.
+             * @protected
+             */
+            _setSentinels: function(sentinels) {
+                var self = this;
+                this._clearSentinels();
+                this._sentinelTime = this.getCurrentTime();
+                this._sentinelInterval = setInterval(function () {
+                    // Check if time is advancing; useful for many sentinels so do it here
+                    var _newTime = self.getCurrentTime();
+                    if (self._sentinelTime === undefined) {
+                        self._sentinelTime = _newTime;
+                    }
+                    self._sentinelTimeHasAdvanced = (_newTime !== undefined) && (_newTime > (self._sentinelTime + 0.01)); // Epsilon for Humax HDR1000s, which advances time by 1/10000th of a second per second while paused
+                    self._sentinelTime = _newTime;
+                    // Call sentinels
+                    for (var i = 0; i < sentinels.length; i++) {
+                        if (sentinels[i].call(self)) {
+                            // If a sentinel returns true to indicate it has performed an action, dont run any more sentinels this time
+                            break;
+                        }
+                    }
+                }, 1100);
+            },
+            // Common tests: make sure sentinels are changed on every state transition
+            // Make sure they are cleaned up on reset and not present when in EMPTY
+
+
+
+            /**
              * Clamp a time value so it does not exceed the current range.
              * Clamps to near the end instead of the end itself to allow for devices that cannot seek to the very end of the media.
              * @param {Number} seconds The time value to clamp in seconds from the start of the media
