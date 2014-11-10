@@ -135,11 +135,11 @@ require.def(
                     if (self._sentinelTime === undefined) {
                         self._sentinelTime = _newTime;
                     }
-                    self._sentinelTimeHasAdvanced = (_newTime !== undefined) && (_newTime > (self._sentinelTime + 0.01)); // Epsilon for Humax HDR1000s, which advances time by 1/10000th of a second per second while paused
+                    self._sentinelTimeHasAdvanced = (_newTime !== undefined) && (_newTime > (self._sentinelTime + 0.5)); // Epsilon for devices which creep time forward when paused or buffering
                     self._sentinelTime = _newTime;
                     // Call sentinels
                     for (var i = 0; i < sentinels.length; i++) {
-                        if (sentinels[i].call(self)) {
+                        if (sentinels[i].call(self, self._sentinelTimeHasAdvanced)) {
                             // If a sentinel returns true to indicate it has performed an action, dont run any more sentinels this time
                             break;
                         }
