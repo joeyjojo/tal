@@ -308,34 +308,21 @@ require.def(
             },
 
             _createElement: function() {
-                //var device = this.getCurrentApplication().getDevice();
-                //this._mediaElement = device._createElement("object", "mediaPlayer");
-                this._mediaElement = this._createCEHTMLObjectElement();
+                var device = RuntimeContext.getDevice();
+                this._mediaElement = device._createElement("object", "mediaPlayer");
                 this._mediaElement.type = this._mimeType;
                 this._mediaElement.data = this._source;
-//                this._mediaElement.style.position = "absolute";
-//                this._mediaElement.style.top = "0px";
-//                this._mediaElement.style.left = "0px";
-//                this._mediaElement.style.width = "100%";
-//                this._mediaElement.style.height = "100%";
-            },
-
-            _createCEHTMLObjectElement: function(contentType) {
-                var device = RuntimeContext.getDevice();
-                var obj = device._createElement("object");
-                obj.setAttribute("type", this._type);
-                obj.setAttribute("class", "mediaPlayer");
-                obj.setAttribute("style", "width: 100%; height: 100%; position: absolute; z-index: -1");
-                //obj.outerHTML = '<object type="' + this._type + '" id="' + this.id + '" class="' + "mediaPlayer" + '" ' + 'style="width: 100%; height: 100%; position: absolute; z-index: -1"' + ' />';
-//                obj.setAttribute("type", this._type);
-//                var div = device.createContainer();
-//                div.innerHTML = '<object type="' + this._type + '" id="' + this.id + '" class="' + "mediaPlayer" + '" ' + 'style="width: 100%; height: 100%; position: absolute; z-index: -1"' + ' />';
-                return obj;
+                this._mediaElement.style.position = "absolute";
+                this._mediaElement.style.top = "0px";
+                this._mediaElement.style.left = "0px";
+                this._mediaElement.style.width = "100%";
+                this._mediaElement.style.height = "100%";
             },
 
             _registerEventHandlers: function() {
                 var self = this;
-                var DEVICE_UPDATE_PERIOD_MS = 1000;
+                var DEVICE_UPDATE_PERIOD_MS = 500;
+
                 this._mediaElement.onPlayStateChange = function() {
                     switch (self._mediaElement.playState) {
                         case Player.PLAY_STATE_STOPPED:
@@ -361,7 +348,8 @@ require.def(
                             break;
                     }
                 }
-                this._updateInterval = window.setInterval(function() {
+
+                this._updateInterval = setInterval(function() {
                     self._onStatus();
                 }, DEVICE_UPDATE_PERIOD_MS);
             },
@@ -369,7 +357,7 @@ require.def(
             _addElementToDOM: function() {
                 var device = RuntimeContext.getDevice();
                 var body = document.getElementsByTagName("body")[0];
-                device.appendChildElement(body, this._mediaElement);
+                device.prependChildElement(body, this._mediaElement);
             },
 
             _cacheRange: function() {
