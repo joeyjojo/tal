@@ -34,7 +34,7 @@
         this.sandbox.restore();
     };
 
-    this.NoAnimAnimationTest.prototype.getConfig = function() {
+    var getConfig = function() {
         var config;
         config = {
             "modules": {
@@ -60,9 +60,9 @@
     };
     
     this.NoAnimAnimationTest.prototype.testScrollElementTo = function(queue) {
-        expectAsserts(2);
+        expectAsserts(3);
 
-        var config = this.getConfig();
+        var config = getConfig();
 
         queuedApplicationInit(queue, 'lib/mockapplication', [], function(application) {
             var device = application.getDevice();
@@ -70,103 +70,101 @@
             var inner = device.createContainer("id");
             device.appendChildElement(div, inner);
 
-            queue.call("Scroll element into new position", function(callbacks) {
-
-                var onComplete = callbacks.add(function() {
-                    assertEquals(-100, parseFloat(inner.style.left.replace(/px$/, '')));
-                    assertEquals(-200, parseFloat(inner.style.top.replace(/px$/, '')));
-                });
-                device.scrollElementTo({
-                    el: div,
-                    style: div.style,
-                    to: {
-                        left: 100,
-                        top: 200
-                    },
-                    onComplete: onComplete
-                });
+            var onComplete = this.sandbox.stub();
+            device.scrollElementTo({
+                el: div,
+                style: div.style,
+                to: {
+                    left: 100,
+                    top: 200
+                },
+                onComplete: onComplete
             });
+
+            assertEquals(-100, parseFloat(inner.style.left.replace(/px$/, '')));
+            assertEquals(-200, parseFloat(inner.style.top.replace(/px$/, '')));
+            assert(onComplete.calledOnce);
         }, config);
     };
 
     this.NoAnimAnimationTest.prototype.testMoveElementTo = function(queue) {
-        expectAsserts(2);
+        expectAsserts(3);
 
-        var config = this.getConfig();
+        var config = getConfig();
 
         queuedApplicationInit(queue, 'lib/mockapplication', [], function(application) {
             var device = application.getDevice();
             var div = device.createContainer("id");
 
-            queue.call("Move element into new position", function(callbacks) {
-
-                var onComplete = callbacks.add(function() {
-                    assertEquals(100, parseFloat(div.style.left.replace(/px$/, '')));
-                    assertEquals(200, parseFloat(div.style.top.replace(/px$/, '')));
-                });
-                device.moveElementTo({
-                    el: div,
-                    style: div.style,
-                    to: {
-                        left: 100,
-                        top: 200
-                    },
-                    skipAnim: true,
-                    onComplete: onComplete
-                });
+            var onComplete = this.sandbox.stub();
+            device.moveElementTo({
+                el: div,
+                style: div.style,
+                to: {
+                    left: 100,
+                    top: 200
+                },
+                skipAnim: true,
+                onComplete: onComplete
             });
+
+            assertEquals(100, parseFloat(div.style.left.replace(/px$/, '')));
+            assertEquals(200, parseFloat(div.style.top.replace(/px$/, '')));
+            assert(onComplete.calledOnce);
+
         }, config);
     };
 
     this.NoAnimAnimationTest.prototype.testHideElement = function(queue) {
-        expectAsserts(2);
+        expectAsserts(3);
 
-        var config = this.getConfig();
+        var config = getConfig();
 
         queuedApplicationInit(queue, 'lib/mockapplication', [], function(application) {
             var device = application.getDevice();
             var div = device.createContainer();
 
-            queue.call("Hide the element", function(callbacks) {
-                var onComplete = callbacks.add(function() {
-                    assertEquals(0, parseFloat(div.style.opacity));
-                    assertEquals("hidden", div.style.visibility);
-                });
-                device.hideElement({
-                    el: div,
-                    onComplete: onComplete
-                });
+            var onComplete = this.sandbox.stub();
+
+            device.hideElement({
+                el: div,
+                onComplete: onComplete
             });
+
+            assertEquals(0, parseFloat(div.style.opacity));
+            assertEquals("hidden", div.style.visibility);
+            assert(onComplete.calledOnce);
+
         }, config);
     };
 
     this.NoAnimAnimationTest.prototype.testShowElement = function(queue) {
-        expectAsserts(2);
+        expectAsserts(3);
 
-        var config = this.getConfig();
+        var config = getConfig();
 
         queuedApplicationInit(queue, 'lib/mockapplication', [], function(application) {
             var device = application.getDevice();
             var div = device.createContainer();
 
+            var onComplete = this.sandbox.stub();
 
-            queue.call("Show the element", function(callbacks) {
-                var onComplete = callbacks.add(function() {
-                    assertEquals(1, parseFloat(div.style.opacity));
-                    assertEquals("visible", div.style.visibility);
-                });
-                device.showElement({
-                    el: div,
-                    onComplete: onComplete
-                });
+            device.showElement({
+                el: div,
+                onComplete: onComplete
             });
+
+            assertEquals(1, parseFloat(div.style.opacity));
+            assertEquals("visible", div.style.visibility);
+            assert(onComplete.calledOnce);
+
         }, config);
     };
 
     this.NoAnimAnimationTest.prototype.testIsAnimationDisabled = function(queue) {
         expectAsserts(1);
 
-        var config = this.getConfig();
+        var config = getConfig();
 
         queuedApplicationInit(queue, 'lib/mockapplication', [], function(application){
             var device = application.getDevice();
@@ -177,7 +175,7 @@
     this.NoAnimAnimationTest.prototype.testTweenElementStyleSetsEnd = function(queue) {
         expectAsserts(1);
         var config;
-        config = this.getConfig();
+        config = getConfig();
         queuedApplicationInit(queue, 'lib/mockapplication', [], function(application){
             var device, div, options;
             device = application.getDevice();
@@ -196,7 +194,7 @@
     this.NoAnimAnimationTest.prototype.testTweenElementStyleSetsUnits = function(queue) {
         expectAsserts(1);
         var config;
-        config = this.getConfig();
+        config = getConfig();
         queuedApplicationInit(queue, 'lib/mockapplication', [], function(application){
             var device, div, options;
             device = application.getDevice();
@@ -215,7 +213,7 @@
     this.NoAnimAnimationTest.prototype.testTweenElementFiresCallback = function(queue) {
         expectAsserts(1);
         var config;
-        config = this.getConfig();
+        config = getConfig();
         queuedApplicationInit(queue, 'lib/mockapplication', [], function(application){
             var device, div, options, spy;
             device = application.getDevice();
@@ -236,7 +234,7 @@
     this.NoAnimAnimationTest.prototype.testMoveElementToZeroFiresCallbackWhenStylePropertiesNotYetSet = function (queue) {
         expectAsserts(1);
         var config;
-        config = this.getConfig();
+        config = getConfig();
 
         queuedApplicationInit(queue, 'lib/mockapplication', [], function (application) {
             var device, options;
@@ -260,4 +258,5 @@
     };
 
     onDeviceTestConfigValidation.removeTestsForIncompatibleDevices(['antie/devices/anim/noanim'], this.NoAnimAnimationTest);
+
 })();

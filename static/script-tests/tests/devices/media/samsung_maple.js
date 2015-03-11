@@ -22,8 +22,6 @@
  * Please contact us for an alternative licence
  */
 
-jstestdriver.console.warn("devices/media/samsung_maple.js is poorly tested!");
-
 (function() {
 
     var config = {"modules":{"base":"antie/devices/browserdevice","modifiers":["antie/devices/media/samsung_maple"]}, "input":{"map":{}},"layouts":[{"width":960,"height":540,"module":"fixtures/layouts/default","classes":["browserdevice540p"]}],"deviceConfigurationKey":"devices-html5-1"};
@@ -43,10 +41,12 @@ jstestdriver.console.warn("devices/media/samsung_maple.js is poorly tested!");
             this.createdTVMPlugin = true;
 
             this.tvmwPlugin.GetSource = this.sandbox.stub();
+            this.tvmwPlugin.SetSource = this.sandbox.stub();
             this.tvmwPlugin.SetMediaSource = this.sandbox.stub();
 
         } else {
             this.sandbox.stub(this.tvmwPlugin, "GetSource");
+            this.sandbox.stub(this.tvmwPlugin, "SetSource");
         }
 
         // If we don't have a Player plugin create it...
@@ -461,4 +461,18 @@ jstestdriver.console.warn("devices/media/samsung_maple.js is poorly tested!");
             }, config);
     };
 
+    this.SamsungMapleTest.prototype.testThatStopIsCalledOnThePlayerPluginWhenAHideEventIsFired = function (queue) {
+      expectAsserts(1);
+      var self = this;
+        queuedApplicationInit(queue, 'lib/mockapplication', ["antie/devices/media/samsung_maple", "antie/events/mediaevent"],
+            function(application, SamsungPlayer,  MediaErrorEvent) {
+
+              var callbackStub = self.sandbox.stub();
+              var mediaInterface = application.getDevice().createMediaInterface("id", "video", callbackStub);
+
+              var event = new CustomEvent('hide');
+              window.dispatchEvent(event);
+              assertTrue(this.playerPlugin.Stop.calledOnce);
+            }, config);
+    };
 })();

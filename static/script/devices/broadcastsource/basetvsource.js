@@ -30,16 +30,21 @@ require.def('antie/devices/broadcastsource/basetvsource',
         'antie/devices/browserdevice'
     ],
     function (Class, Device) {
+        'use strict';
+
         /**
          * Contains an abstract implementation of the antie base broadcast TV source.
-         * @private
+         * @class
+         * @name antie.devices.broadcastsource.BaseTVSource
+         * @extends antie.Class
+         * @protected
          */
 
         /**
          * The play states
          */
         var PLAY_STATE_UNKNOWN = -1;
-        var BaseTvSource = Class.extend(/** @lends antie.devices.broadcastsource.basetvsource.prototype */ {
+        var BaseTvSource = Class.extend(/** @lends antie.devices.broadcastsource.BaseTVSource.prototype */ {
             /**
              * @constructor
              * @ignore

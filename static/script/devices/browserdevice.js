@@ -1,3 +1,4 @@
+/* jshint -W030 */
 /**
  * @fileOverview Requirejs module containing the antie.BrowserDevice class.
  *
@@ -28,9 +29,11 @@ require.def("antie/devices/browserdevice",
     [
         "antie/devices/device",
         "antie/events/keyevent",
-        "antie/historian"
+        "antie/historian",
+        "antie/devices/sanitiser"
     ],
-    function(Device, KeyEvent, Historian) {
+    function(Device, KeyEvent, Historian, Sanitiser) {
+        'use strict';
 
         function trim(str) {
             return str.replace(/^\s+/, '').replace(/\s+$/, '');
@@ -190,7 +193,7 @@ require.def("antie/devices/browserdevice",
                 if (callback && supportsCssRules()) {
                     var style = this._createElement("style");
                     style.type = "text/css";
-                    style.innerHTML = '@import url("' + url + '");';
+                    style.innerHTML = "@import url('" + url + "');";
                     style.className = "added-by-antie";
                     document.getElementsByTagName("head")[0].appendChild(style);
 
@@ -215,7 +218,7 @@ require.def("antie/devices/browserdevice",
                     // http://www.backalleycoder.com/2011/03/20/link-tag-css-stylesheet-load-event/
                     if (callback) {
                         var img = this._createElement("img");
-                        function done() {
+                        var done = function() {
                             img.onerror = function() {};
                             callback(url);
                             img.parentNode.removeChild(img);
@@ -291,7 +294,9 @@ require.def("antie/devices/browserdevice",
              * @param {Element} el The element you are removing the content from.
              */
             clearElement: function(el) {
-                el.innerHTML = "";
+                for (var i = el.childNodes.length - 1; i >= 0; i--) {
+                    el.removeChild(el.childNodes[i]);
+                }
             },
             /**
              * Sets the classes of an element.
@@ -420,7 +425,13 @@ require.def("antie/devices/browserdevice",
              * @param {String} content The new content for the element.
              */
             setElementContent: function(el, content) {
-                el.innerHTML = content;
+                if (content === "") {
+                    this.clearElement(el);
+                    return;
+                }
+
+                var sanitiser = new Sanitiser(content);
+                sanitiser.setElementContent(el);
             },
             /**
              * Clones an element.
@@ -480,8 +491,8 @@ require.def("antie/devices/browserdevice",
                     stylesheetElements.push(linkElements[i]);
                 }
 
-                for (var i = 0; i < styleElements.length; i++) {
-                    stylesheetElements.push(styleElements[i]);
+                for (var j = 0; j < styleElements.length; j++) {
+                    stylesheetElements.push(styleElements[j]);
                 }
 
                 return stylesheetElements;

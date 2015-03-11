@@ -49,36 +49,55 @@
 	this.ApplicationLayoutsTest.prototype.testGetBestFitLayoutOnLargerScreen = function(queue) {
 		expectAsserts(1);
 
-		queuedRequire(queue, ['antie/devices/browserdevice'], function(BrowserDevice) {
+		queuedApplicationInit(queue, "lib/mockapplication", ['antie/devices/browserdevice'], function(application, BrowserDevice) {
 			this.sandbox.stub(BrowserDevice.prototype, 'getScreenSize', function() {
 				return {
 					width: 1000000,
 					height: 1000000
 				};
 			});
-
-			queuedApplicationInit(queue, "lib/mockapplication", [], function(application) {
-				var layout = application.getBestFitLayout();
-				assertSame(antie.framework.deviceConfiguration.layouts[0], layout);
-			});
+			var layout = application.getBestFitLayout();
+			assertSame(antie.framework.deviceConfiguration.layouts[0], layout);
 		});
 	};
 	this.ApplicationLayoutsTest.prototype.testSetLayoutIsCalled = function(queue) {
-		expectAsserts(1);
+		expectAsserts(7);
 
-		queuedRequire(queue, ["lib/mockapplication"], function(MockApplication) {
-			queue.call("Wait for setLayout to be called", function(callbacks) {
-				var setLayoutSpy;
-				var onBeforeInit = callbacks.add(function() {
-					setLayoutSpy = this.sandbox.spy(MockApplication.prototype, 'setLayout');
-				});
-				var onReady = callbacks.add(function() {
-					var layout = require(antie.framework.deviceConfiguration.layouts[1].module);
-					assert(setLayoutSpy.calledWith(layout));
-				});
-				this.application = new MockApplication(document.createElement('div'), null, null, onReady, null, onBeforeInit);
-			});
-		});
+        queuedApplicationInit(queue, "lib/mockapplication", ["lib/mockapplication", "antie/devices/device"], function(application, MockApplication, Device) {
+
+            var device = application.getDevice();
+            application.destroy();
+
+            var deviceLoadStub = this.sandbox.stub(Device, "load");
+
+            var setLayoutStub = this.sandbox.stub(MockApplication.prototype, "setLayout");
+
+            var app = new MockApplication(document.createElement('div'), null, null, null);
+
+
+            assert(deviceLoadStub.calledOnce);
+            var deviceLoadCallbacks = deviceLoadStub.args[0][1];
+            assertObject(deviceLoadCallbacks);
+            assertFunction(deviceLoadCallbacks.onSuccess);
+
+            // When we call back indicating success of Device.load, we load the layouts by using require. We mock
+            // out require and simulate the success of the load of the require call that loads the layout module.
+            var requireStub = this.sandbox.stub(window, "require");
+
+            deviceLoadCallbacks.onSuccess(device);
+
+            assert(requireStub.calledOnce);
+            var requireCallback = requireStub.args[0][1];
+            assertFunction(requireCallback);
+
+            assert(setLayoutStub.notCalled);
+
+            var mockLayout = { };
+
+            requireCallback(mockLayout);
+
+            assert(setLayoutStub.calledOnce);
+        });
 	};
 	this.ApplicationLayoutsTest.prototype.testGetLayout = function(queue) {
 		expectAsserts(1);
@@ -88,24 +107,6 @@
 			var layout = application.getLayout();
 			assertSame(expectedLayout, layout);
 		});
-	};
-
-	this.ApplicationLayoutsTest.prototype.testSetLayoutLoadCSS = function(queue) {
-		/*expectAsserts(3);
-
-		queuedApplicationInit(queue, "lib/mockapplication", [], function(application) {
-			var layout = application.getLayout();
-			var device = application.getDevice();
-
-			var loadStyleSheetSpy = this.sandbox.spy(device, 'loadStyleSheet');
-
-			application.setLayout(layout, "about:styleBaseUrl/", null, ["1.css","2.css"], [], []);
-			assertEquals(2, loadStyleSheetSpy.callCount);
-			assert(loadStyleSheetSpy.calledWithExactly("about:styleBaseUrl/1.css"));
-			assert(loadStyleSheetSpy.calledWithExactly("about:styleBaseUrl/2.css"));
-		});
-		*/
-		jstestdriver.console.warn("BrowserDevice::setLayout with stylesheets is currently untested.");
 	};
 
 	this.ApplicationLayoutsTest.prototype.testSetLayoutPreloadImages = function(queue) {

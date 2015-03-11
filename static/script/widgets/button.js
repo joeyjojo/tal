@@ -34,6 +34,8 @@ require.def('antie/widgets/button',
 	 	'antie/events/selectevent'
 	],
 	function(Container, FocusEvent, FocusDelayEvent, BlurEvent, KeyEvent, SelectEvent) {
+		'use strict';
+
 		/**
 		 * The Button widget class represents a container widget which can receive focus and be selected/activated by the user.
 		 * @name antie.widgets.Button
@@ -91,14 +93,19 @@ require.def('antie/widgets/button',
 				return this.outputElement;
 			},
 			/**
-			 * Checks to see if a widget is focussable (as we're a button, returns true).
+			 * Checks to see if a widget is focusable.
 			 * @see antie.widgets.Button
+			 * @returns {Boolean} True if the button is enabled.
 			 */
 			isFocusable: function() {
 				// a widget can receive focus if it or any of it's descendants are Buttons
 				// We're a button, so we are
 				return !this._disabled;
 			},
+			/**
+			 * Set the button to be disabled and therefore not focusable. Adds buttonDisabled class.
+			 * @param {Boolean} disabled True if the button is to be disabled.
+			 */
 			setDisabled: function(disabled) {
 				this._disabled = disabled;
 				if(disabled) {
