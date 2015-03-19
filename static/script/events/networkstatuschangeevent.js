@@ -24,7 +24,7 @@
  * Please contact us for an alternative licence
  */
 
-require.def('antie/events/networkstatuschangeevent',
+define('antie/events/networkstatuschangeevent',
 	['antie/events/event'],
 	function(Event) {
 		'use strict';

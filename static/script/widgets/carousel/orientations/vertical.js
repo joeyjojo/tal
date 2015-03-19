@@ -21,7 +21,7 @@
  * All rights reserved
  * Please contact us for an alternative licence
  */
-require.def('antie/widgets/carousel/orientations/vertical',
+define('antie/widgets/carousel/orientations/vertical',
     [
         'antie/class',
         'antie/events/keyevent'

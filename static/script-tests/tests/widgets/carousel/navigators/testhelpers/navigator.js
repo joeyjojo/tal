@@ -22,7 +22,7 @@
  * Please contact us for an alternative licence
  */
 
-require.def('tests/widgets/navigators/testhelpers/navigator',
+define('tests/widgets/navigators/testhelpers/navigator',
     [
         'antie/widgets/button',
         'antie/widgets/label',

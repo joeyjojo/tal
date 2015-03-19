@@ -26,7 +26,7 @@
 
 sinon = sinon || {};
 
-require.def(
+define(
     'mocks/mockelement',
     [
         'antie/class'

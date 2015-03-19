@@ -24,7 +24,7 @@
  * Please contact us for an alternative licence
  */
 
-require.def('antie/videosource',
+define('antie/videosource',
         ['antie/mediasource'],
         function(MediaSource) {
             'use strict';

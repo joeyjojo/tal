@@ -21,7 +21,7 @@
  * All rights reserved
  * Please contact us for an alternative licence
  */
-require.def('antie/widgets/carousel/mask',
+define('antie/widgets/carousel/mask',
     [
         'antie/widgets/container',
         'antie/widgets/carousel/spinner',

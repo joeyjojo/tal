@@ -24,7 +24,7 @@
  * Please contact us for an alternative licence
  */
 
-require.def('antie/events/pagechangeevent',
+define('antie/events/pagechangeevent',
 	['antie/events/event'],
 	function(Event) {
 		'use strict';

@@ -26,7 +26,7 @@
  * Please contact us for an alternative licence
  */
 
-require.def('antie/devices/broadcastsource/samsungtvsource',
+define('antie/devices/broadcastsource/samsungtvsource',
     [
         'antie/devices/browserdevice',
         'antie/devices/broadcastsource/basetvsource',

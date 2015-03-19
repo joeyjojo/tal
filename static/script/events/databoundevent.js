@@ -24,7 +24,7 @@
  * Please contact us for an alternative licence
  */
 
-require.def('antie/events/databoundevent',
+define('antie/events/databoundevent',
 	['antie/events/event'],
 	function(Event) {
 		'use strict';

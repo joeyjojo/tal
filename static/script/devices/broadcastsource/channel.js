@@ -24,7 +24,7 @@
  * Please contact us for an alternative licence
  */
 
-require.def('antie/devices/broadcastsource/channel',
+define('antie/devices/broadcastsource/channel',
     [
         'antie/class'
     ],

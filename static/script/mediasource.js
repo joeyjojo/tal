@@ -24,7 +24,7 @@
  * Please contact us for an alternative licence
  */
 
-require.def('antie/mediasource',
+define('antie/mediasource',
         [
 			'antie/class',
 			'antie/runtimecontext',

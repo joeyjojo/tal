@@ -24,7 +24,7 @@
  * Please contact us for an alternative licence
  */
 
-require.def('antie/widgets/verticallist',
+define('antie/widgets/verticallist',
 	[
 	 	'antie/widgets/list',
 	 	'antie/events/keyevent'

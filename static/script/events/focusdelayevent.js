@@ -24,7 +24,7 @@
  * Please contact us for an alternative licence
  */
 
-require.def('antie/events/focusdelayevent',
+define('antie/events/focusdelayevent',
 	['antie/events/event'],
 	function(Event) {
 		'use strict';

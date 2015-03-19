@@ -21,7 +21,7 @@
  * All rights reserved
  * Please contact us for an alternative licence
  */
-require.def('antie/devices/parentalguidance/appdefaultpghandler',
+define('antie/devices/parentalguidance/appdefaultpghandler',
     [
         'antie/devices/browserdevice',
         'antie/devices/parentalguidance/basepghandler'

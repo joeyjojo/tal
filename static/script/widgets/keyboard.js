@@ -24,7 +24,7 @@
  * Please contact us for an alternative licence
  */
 
-require.def('antie/widgets/keyboard',
+define('antie/widgets/keyboard',
 	[
 		'antie/widgets/grid',
 		'antie/widgets/button',

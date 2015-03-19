@@ -24,7 +24,7 @@
  * Please contact us for an alternative licence
  */
 
-require.def('antie/widgets/grid',
+define('antie/widgets/grid',
 	[
 	 	'antie/widgets/container',
 	 	'antie/events/keyevent',

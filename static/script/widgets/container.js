@@ -24,7 +24,7 @@
  * Please contact us for an alternative licence
  */
 
-require.def('antie/widgets/container',
+define('antie/widgets/container',
 	[
         'antie/widgets/widget',
         'antie/events/focusevent',

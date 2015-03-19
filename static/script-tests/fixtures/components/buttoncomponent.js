@@ -24,7 +24,7 @@
  * Please contact us for an alternative licence
  */
 
-require.def('fixtures/components/buttoncomponent',
+define('fixtures/components/buttoncomponent',
 		['antie/widgets/component','antie/widgets/button'], function(Component, Button) {
 	return Component.extend({
 		init: function() {

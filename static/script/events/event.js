@@ -34,7 +34,7 @@
  * @namespace
  */
 
-require.def('antie/events/event',
+define('antie/events/event',
 	['antie/class'],
 	function(Class) {
 		'use strict';

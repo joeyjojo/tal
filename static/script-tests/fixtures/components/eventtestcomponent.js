@@ -26,7 +26,7 @@
  * Please contact us for an alternative licence
  */
 
-require.def('fixtures/components/eventtestcomponent', ['antie/widgets/component'], function(Component) {
+define('fixtures/components/eventtestcomponent', ['antie/widgets/component'], function(Component) {
 	return Component.extend({
 		init: function() {
 			var self = this;

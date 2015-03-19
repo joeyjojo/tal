@@ -24,7 +24,7 @@
  * Please contact us for an alternative licence
  */
 
-require.def('antie/runtimecontext',
+define('antie/runtimecontext',
 	[
 		'antie/class'
 	],

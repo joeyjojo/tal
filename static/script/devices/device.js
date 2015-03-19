@@ -50,7 +50,7 @@
  * @namespace
  */
 
-require.def('antie/devices/device',
+define('antie/devices/device',
     [
         'antie/class',
         'antie/events/keyevent',

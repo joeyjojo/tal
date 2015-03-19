@@ -24,7 +24,7 @@
  * Please contact us for an alternative licence
  */
 
-require.def('antie/urlbuilder',
+define('antie/urlbuilder',
 	['antie/class'],
 	function(Class) {
 		'use strict';

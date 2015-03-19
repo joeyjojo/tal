@@ -24,7 +24,7 @@
  * Please contact us for an alternative licence
  */
 
-require.def('antie/widgets/horizontallist',
+define('antie/widgets/horizontallist',
 	[
 	 	'antie/widgets/list',
 	 	'antie/events/keyevent'

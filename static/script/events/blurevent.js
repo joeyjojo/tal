@@ -24,7 +24,7 @@
  * Please contact us for an alternative licence
  */
 
-require.def('antie/events/blurevent',
+define('antie/events/blurevent',
 	['antie/events/event'],
 	function(Event) {
 		'use strict';

@@ -1,5 +1,5 @@
 /**
- * @fileOverview Test layout - default size for SD TV.Œ
+ * @fileOverview Test layout - default size for SD TV.ï¿½
  *
  * @preserve Copyright (c) 2013 British Broadcasting Corporation
  * (http://www.bbc.co.uk) and TAL Contributors (1)
@@ -24,7 +24,7 @@
  * Please contact us for an alternative licence
  */
 
-require.def('fixtures/layouts/default',
+define('fixtures/layouts/default',
 {
 	classes: [
 		"layoutDefault"

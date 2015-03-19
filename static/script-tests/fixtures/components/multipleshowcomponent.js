@@ -23,7 +23,7 @@
  * All rights reserved
  * Please contact us for an alternative licence
  */
-require.def('fixtures/components/multipleshowcomponent', ['antie/widgets/component'], function(Component) {
+define('fixtures/components/multipleshowcomponent', ['antie/widgets/component'], function(Component) {
 	return Component.extend({
 		init: function() {
 			this._super("multipleShowComponent");

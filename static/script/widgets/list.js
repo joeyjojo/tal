@@ -24,7 +24,7 @@
  * Please contact us for an alternative licence
  */
 
-require.def('antie/widgets/list',
+define('antie/widgets/list',
 	[
 		'antie/widgets/container',
 		'antie/widgets/listitem',

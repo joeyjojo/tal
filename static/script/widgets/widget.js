@@ -30,7 +30,7 @@
  * @namespace
  */
 
-require.def('antie/widgets/widget',
+define('antie/widgets/widget',
     [
         'antie/class',
         'antie/runtimecontext'

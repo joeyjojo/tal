@@ -23,7 +23,7 @@
  * All rights reserved
  * Please contact us for an alternative licence
  */
-require.def('antie/events/afteralignevent',
+define('antie/events/afteralignevent',
     ['antie/events/event'],
     function (Event) {
         "use strict";

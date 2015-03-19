@@ -24,7 +24,7 @@
  * Please contact us for an alternative licence
  */
 
-require.def('antie/events/sliderchangeevent',
+define('antie/events/sliderchangeevent',
 	['antie/events/event'],
 	function(Event) {
 		'use strict';

@@ -24,7 +24,7 @@
  * Please contact us for an alternative licence
  */
 
-require.def('antie/widgets/textpager',
+define('antie/widgets/textpager',
 	[
 	 	'antie/widgets/label',
 	 	'antie/events/textpagechangeevent'

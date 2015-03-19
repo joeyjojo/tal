@@ -22,7 +22,7 @@
  * Please contact us for an alternative licence
  */
 
-require.def('antie/widgets/carousel',
+define('antie/widgets/carousel',
     [
         'antie/widgets/carousel/carouselcore',
         'antie/widgets/container'

@@ -24,7 +24,7 @@
  * Please contact us for an alternative licence
  */
 
-require.def('antie/iterator',
+define('antie/iterator',
 	['antie/class'],
 	function(Class) {
 		'use strict';

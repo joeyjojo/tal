@@ -24,7 +24,7 @@
  * Please contact us for an alternative licence
  */
 
-require.def('antie/widgets/image',
+define('antie/widgets/image',
 	['antie/widgets/container'],
 	function(Container) {
 		'use strict';

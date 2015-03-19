@@ -24,7 +24,7 @@
  * Please contact us for an alternative licence
  */
 
-require.def("lib/mockapplication",
+define("lib/mockapplication",
 	[
 		"antie/application",
 		"antie/widgets/container"

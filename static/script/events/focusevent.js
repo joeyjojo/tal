@@ -24,7 +24,7 @@
  * Please contact us for an alternative licence
  */
 
-require.def('antie/events/focusevent',
+define('antie/events/focusevent',
 	['antie/events/event'],
 	function(Event) {
 		'use strict';

@@ -23,7 +23,7 @@
  * All rights reserved
  * Please contact us for an alternative licence
  */
- require.def('antie/devices/sanitisers/whitelisted', 
+ define('antie/devices/sanitisers/whitelisted',
     ['antie/devices/sanitiser'],
     function (Sanitiser) {
 

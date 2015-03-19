@@ -24,7 +24,7 @@
  * Please contact us for an alternative licence
  */
 
-require.def('antie/events/mediasourceerrorevent',
+define('antie/events/mediasourceerrorevent',
 	['antie/events/mediaerrorevent'],
 	function(MediaErrorEvent) {
 		'use strict';

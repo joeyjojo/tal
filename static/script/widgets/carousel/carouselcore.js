@@ -24,7 +24,7 @@
  * Please contact us for an alternative licence
  */
 
-require.def('antie/widgets/carousel/carouselcore',
+define('antie/widgets/carousel/carouselcore',
 	[
 		'antie/widgets/container',
         'antie/widgets/carousel/navigators/bookendednavigator',

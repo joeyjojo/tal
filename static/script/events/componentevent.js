@@ -25,7 +25,7 @@
  */
 
 
-require.def('antie/events/componentevent',
+define('antie/events/componentevent',
 	['antie/events/event'],
 	function(Event) {
 		'use strict';

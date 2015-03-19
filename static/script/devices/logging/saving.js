@@ -25,7 +25,7 @@
 */
 
 // Saves the logs for access later
-require.def(
+define(
 	'antie/devices/logging/saving',
 	[ 'module', 'antie/devices/device', 'antie/application' ],
 	function(Module, Device, Application)

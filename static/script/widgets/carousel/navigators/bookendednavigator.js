@@ -22,7 +22,7 @@
  * Please contact us for an alternative licence
  */
 
-require.def('antie/widgets/carousel/navigators/bookendednavigator',
+define('antie/widgets/carousel/navigators/bookendednavigator',
 	[
 		'antie/widgets/carousel/navigators/navigator'
 	],

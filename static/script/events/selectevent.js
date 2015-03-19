@@ -24,7 +24,7 @@
  * Please contact us for an alternative licence
  */
 
-require.def('antie/events/selectevent',
+define('antie/events/selectevent',
 	['antie/events/event'],
 	function(Event) {
 		'use strict';

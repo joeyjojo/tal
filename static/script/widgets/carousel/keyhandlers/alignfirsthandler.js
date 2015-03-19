@@ -21,7 +21,7 @@
  * All rights reserved
  * Please contact us for an alternative licence
  */
-require.def('antie/widgets/carousel/keyhandlers/alignfirsthandler',
+define('antie/widgets/carousel/keyhandlers/alignfirsthandler',
     [
         'antie/widgets/carousel/keyhandlers/keyhandler'
     ],

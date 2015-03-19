@@ -24,7 +24,7 @@
  * Please contact us for an alternative licence
  */
 
-require.def('antie/devices/broadcastsource/basetvsource',
+define('antie/devices/broadcastsource/basetvsource',
     [
         'antie/class',
         'antie/devices/browserdevice'

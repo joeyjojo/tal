@@ -24,7 +24,7 @@
  * Please contact us for an alternative licence
  */
 
-require.def('antie/datasource',
+define('antie/datasource',
 	['antie/class'],
 	function(Class) {
 		'use strict';

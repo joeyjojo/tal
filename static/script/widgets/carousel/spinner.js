@@ -22,7 +22,7 @@
  * Please contact us for an alternative licence
  */
 
-require.def('antie/widgets/carousel/spinner',
+define('antie/widgets/carousel/spinner',
     [
         'antie/class'
     ],

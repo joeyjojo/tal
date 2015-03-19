@@ -21,6 +21,6 @@
  * All rights reserved
  * Please contact us for an alternative licence
  */
-require.def('fixtures/requiremodule', [], function() {
+define('fixtures/requiremodule', [], function() {
 	return "Mock Require Module";
 });

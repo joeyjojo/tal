@@ -24,7 +24,7 @@
  * Please contact us for an alternative licence
  */
 
-require.def("antie/historian",
+define("antie/historian",
     [
         "antie/class"
     ],

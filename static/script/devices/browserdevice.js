@@ -25,7 +25,7 @@
  * Please contact us for an alternative licence
  */
 
-require.def("antie/devices/browserdevice",
+define("antie/devices/browserdevice",
     [
         "antie/devices/device",
         "antie/events/keyevent",
